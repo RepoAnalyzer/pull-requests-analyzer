@@ -33,4 +33,4 @@ repos:
           pass_filenames: false
           always_run: true
           name: Run tests
-          entry: pixi run test
+          entry: make test
