@@ -1,11 +1,6 @@
 # %%
-import os  # noqa
 import shutil  # noqa
-import urllib  # noqa
 from pathlib import Path  # noqa
-
-# url = "https://www.cs.toronto.edu/~kriz/cifar-100-python.tar.gz"
-# urllib.request.urlretrieve(url, file_path)
 
 external_data_path = Path(
     "/home/ds13/.bookmarks/shared-project-assets/Programming__/GitHub_datasets"
@@ -25,7 +20,6 @@ if not dataset_path.exists():
     shutil.unpack_archive(
         external_data_path / (filename + ".zip"), extract_dir=raw_data_path
     )
-    # file_path.unlink()  # Remove archive after extracting it.
 
 # %%
 import pandas as pd  # noqa
@@ -38,12 +32,6 @@ data_part1 = pd.read_csv(dataset_file_path, nrows=CHUNKSIZE)
 
 # %%
 from IPython.display import display  # noqa
-
-# df = data
-# with df as reader:
-# data_chunk = reader.get_chunk(CHUNKSIZE)
-# display(data_chunk.head())
-
 
 # %%
 data_part1.head()
