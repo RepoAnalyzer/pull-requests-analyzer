@@ -1,30 +1,26 @@
 # %%
-print("Hello world!")
-
-# %%
 from transformers import LlamaForCausalLM, LlamaTokenizer  # noqa
 
 tokenizer = LlamaTokenizer.from_pretrained("lzw1008/Emollama-7b")
 model = LlamaForCausalLM.from_pretrained("lzw1008/Emollama-7b", device_map="auto")
 
-# %%
-input_ids = tokenizer("Why the sky is blue?", return_tensors="pt").to("cuda")
-input_ids
 
 # %%
-output = model.generate(**input_ids)
-print(tokenizer.decode(output[0], skip_special_tokens=True))
-
-
-# %%
-def get_answer(prompt: str):
+def get_answer(prompt: str, max_length=500):
     input_ids = tokenizer(prompt, return_tensors="pt").to("cuda")
-    input_ids
 
-    output = model.generate(**input_ids)
+    output = model.generate(
+        **input_ids,
+        # https://stackoverflow.com/questions/69609401/suppress-huggingface-logging-warning-setting-pad-token-id-to-eos-token-id
+        pad_token_id=tokenizer.eos_token_id,
+        max_length=max_length,
+    )
 
-    return tokenizer.decode(output[0], skip_special_tokens=True)
+    return tokenizer.batch_decode(output, skip_special_tokens=True)
 
+
+# %%
+get_answer("""why the sky is blue?""", max_length=300)
 
 # %% [markdown]
 # ## Prompt Engineering
@@ -81,10 +77,12 @@ Text: Попробуй добавить 'kill' в вызов функции `nak
 task = """
 Task: Assign a numerical value between 0 (least E) and 1 (most E) to represent
 the intensity of emotion E expressed in the text.
+Text: Попробуй добавить 'kill' в вызов функции `naked_processing()`.
 """
 
 print(get_answer(task + text_en))
 print(get_answer(task + text_ru))
+
 
 # %% [markdown]
 # ### Sentiment strength
