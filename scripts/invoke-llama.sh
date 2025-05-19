@@ -1,2 +1,4 @@
-i llm.prompt --prompt="$(cat ../prompts/ru-toxicity.md & cat ../prompts/messages.md)"
-p > ../docs/Gemma3-12b__Results/all.md
+# Run manually.
+i llm.prompt --prompt="$(cat ./prompts/ru-toxicity.md & cat ./prompts/repolier-frontend-message-mocks.md)"
+# i llm.prompt --prompt="$(cat ./prompts/ru-toxicity.md & cat ./prompts/messages.md)"
+p > ./docs/Gemma3-12b__Results/all.md
